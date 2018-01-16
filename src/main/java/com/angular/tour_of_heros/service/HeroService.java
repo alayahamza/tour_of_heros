@@ -1,5 +1,6 @@
 package com.angular.tour_of_heros.service;
 
+import com.angular.tour_of_heros.exception.HeroNotFoundException;
 import com.angular.tour_of_heros.model.Hero;
 import com.angular.tour_of_heros.repository.IHeroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,11 @@ public class HeroService {
     }
 
     public Hero fetchHeroById(int id) {
-        return heroRepository.findOne(id);
+        Hero one = heroRepository.findOne(id);
+        if (one == null) {
+            throw new HeroNotFoundException("Hero with id : " + id + " not found");
+        }
+        return one;
     }
 
     public Hero fetchHeroByName(String name) {
